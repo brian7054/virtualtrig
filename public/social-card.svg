@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1220"></stop>
+      <stop offset="1" stop-color="#111827"></stop>
+    </linearGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4F46E5"></stop><stop offset="1" stop-color="#06B6D4"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"></rect>
+  <!-- soft grid -->
+  <g stroke="#1f2a44" stroke-width="1" opacity="0.4">
+    <path d="M600 0V630 M0 315H1200"></path>
+    <circle cx="600" cy="315" r="220" fill="none"></circle>
+  </g>
+  <!-- icon tile -->
+  <g transform="translate(120,155)">
+    <rect x="0" y="0" width="200" height="200" rx="24" fill="url(#g)"></rect>
+    <circle cx="100" cy="100" r="60" fill="none" stroke="white" stroke-width="6" opacity="0.95"></circle>
+    <path d="M100 100 L160 100 A60 60 0 0 1 133 47 Z" fill="white" opacity="0.2"></path>
+    <line x1="40" y1="100" x2="160" y2="100" stroke="white" stroke-width="4" opacity="0.25"></line>
+    <line x1="100" y1="40" x2="100" y2="160" stroke="white" stroke-width="4" opacity="0.25"></line>
+    <path d="M12 156 C 36 140, 60 164, 84 156 S 132 140, 156 156 S 180 164, 204 156" fill="none" stroke="white" stroke-width="4" opacity="0.9" stroke-linecap="round"></path>
+  </g>
+  <!-- title -->
+  <g fill="#FFFFFF" font-family="Inter, ui-sans-serif, system-ui">
+    <text x="360" y="260" font-size="88" font-weight="800">VIRTUAL</text>
+    <text x="830" y="260" font-size="88" font-weight="700">trig</text>
+    <text x="360" y="320" font-size="30" fill="#C7D2FE">Interactive unit circle · AI tutoring · practice</text>
+  </g>
+</svg>

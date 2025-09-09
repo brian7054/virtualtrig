@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <rect width="1200" height="600" fill="#FFFFFF"></rect>
+  <g stroke="#E5E7EB" stroke-width="1">
+    <!-- grid -->
+    <path d="M0 300 H1200 M600 0 V600"></path>
+    <!-- faint unit circle -->
+    <circle cx="600" cy="300" r="180" fill="none" stroke="#CBD5E1"></circle>
+  </g>
+</svg>

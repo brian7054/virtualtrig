@@ -1,0 +1,22 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VIRTUALtrig icon">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4F46E5"></stop>
+      <stop offset="1" stop-color="#06B6D4"></stop>
+    </linearGradient>
+  </defs>
+  <!-- Tile -->
+  <rect x="0" y="0" width="512" height="512" rx="44" fill="url(#g)"></rect>
+  <!-- Unit circle -->
+  <circle cx="256" cy="256" r="160" fill="none" stroke="white" stroke-width="10" opacity="0.95"></circle>
+  <!-- Angle sector (~60°) -->
+  <path d="M256 256 L416 256 A160 160 0 0 1 336 117.4 Z" fill="white" opacity="0.18"></path>
+  <!-- Reference axes -->
+  <line x1="96" y1="256" x2="416" y2="256" stroke="white" stroke-width="6" opacity="0.25"></line>
+  <line x1="256" y1="96" x2="256" y2="416" stroke="white" stroke-width="6" opacity="0.25"></line>
+  <!-- Sine wave -->
+  <path d="M0 380
+           C 64 340, 128 420, 192 380
+           S 320 340, 384 380
+           S 448 420, 512 380" fill="none" stroke="white" stroke-width="8" opacity="0.9" stroke-linecap="round"></path>
+</svg>

@@ -1,0 +1,30 @@
+<svg width="1000" height="240" viewBox="0 0 1000 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VIRTUALtrig wordmark (tight)">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4F46E5"></stop>
+      <stop offset="1" stop-color="#06B6D4"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Mark -->
+  <g transform="translate(16,16)">
+    <rect x="0" y="0" width="208" height="208" rx="28" fill="url(#g2)"></rect>
+    <circle cx="104" cy="104" r="64" fill="none" stroke="white" stroke-width="6" opacity="0.95"></circle>
+    <path d="M104 104 L168 104 A64 64 0 0 1 139.4 48.8 Z" fill="white" opacity="0.18"></path>
+    <line x1="40" y1="104" x2="168" y2="104" stroke="white" stroke-width="4" opacity="0.25"></line>
+    <line x1="104" y1="40" x2="104" y2="168" stroke="white" stroke-width="4" opacity="0.25"></line>
+    <path d="M12 164 C 36 148, 60 172, 84 164 S 132 148, 156 164 S 180 172, 204 164" fill="none" stroke="white" stroke-width="4" opacity="0.9" stroke-linecap="round"></path>
+  </g>
+
+  <!-- Wordmark (tighter using dx on the second tspan) -->
+  <g transform="translate(248,60)">
+    <text x="0" y="70" font-size="72" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" fill="#0B1220">
+      <tspan font-weight="700">VIRTUAL</tspan>
+      <!-- ↓ adjust this spacing between the words -->
+      <tspan dx="14" font-weight="600">trig</tspan>
+    </text>
+    <text x="2" y="120" font-size="22" font-weight="500" font-family="Inter, ui-sans-serif, system-ui" fill="#475569">
+      Make trig click.
+    </text>
+  </g>
+</svg>
