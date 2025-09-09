@@ -18,6 +18,14 @@
     "@tailwindcss/postcss": "latest",
     "autoprefixer": "latest",
     "postcss": "latest",
+    "sharp": "^0.34.3",
     "tailwindcss": "latest"
-  }
+  },
+"scripts": {
+  "dev": "next dev -p 3000",
+  "build": "next build",
+  "start": "next start",
+  "icons": "node tools/export-icons.mjs"
+}
+
 }
