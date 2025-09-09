@@ -1,32 +1,38 @@
-import nodemailer from "nodemailer";
+import { useState } from "react";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,         // e.g. smtp-relay.brevo.com or in-v3.mailjet.com
-  port: Number(process.env.SMTP_PORT), // 587 (STARTTLS) or 465 (SSL)
-  secure: process.env.SMTP_SECURE === "true",
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-});
+export default function Contact() {
+  const [ok, setOk] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ ok: false });
-  const { name, email, message, honeypot } = req.body || {};
-  if (honeypot) return res.status(200).json({ ok: true });
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ ok: false, error: "Missing fields" });
-  }
-
-  try {
-    await transporter.sendMail({
-      from: process.env.SUPPORT_FROM,           // e.g., 'VIRTUALtrig <support@virtualtrig.com>'
-      to: process.env.SUPPORT_TO,               // 'support@virtualtrig.com'
-      replyTo: email,
-      subject: `Support: ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`
+  async function onSubmit(e) {
+    e.preventDefault();
+    setLoading(true); setOk(null);
+    const data = Object.fromEntries(new FormData(e.currentTarget));
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
-    return res.status(200).json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ ok: false, error: "Email send failed" });
+    setOk(res.ok); setLoading(false);
+    if (res.ok) e.currentTarget.reset();
   }
+
+  return (
+    <main className="min-h-screen p-6 md:p-10">
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-3xl font-semibold mb-3">Contact Support</h1>
+        <form onSubmit={onSubmit} className="space-y-3">
+          <input name="honeypot" className="hidden" tabIndex={-1} autoComplete="off" />
+          <input name="name" placeholder="Your name" className="w-full border rounded-xl px-3 py-2" required />
+          <input name="email" type="email" placeholder="Your email" className="w-full border rounded-xl px-3 py-2" required />
+          <textarea name="message" placeholder="How can we help?" className="w-full border rounded-xl px-3 py-2 min-h-[120px]" required />
+          <button disabled={loading} className="px-4 py-2 rounded-xl bg-black text-white">
+            {loading ? "Sending..." : "Send"}
+          </button>
+          {ok === true && <p className="text-green-600">Thanks! We’ll be in touch.</p>}
+          {ok === false && <p className="text-red-600">Something went wrong. Try again.</p>}
+        </form>
+      </div>
+    </main>
+  );
 }
