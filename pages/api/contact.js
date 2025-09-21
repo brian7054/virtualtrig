@@ -1,31 +1,68 @@
 // pages/api/contact.js
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,                // in-v3.mailjet.com
-  port: Number(process.env.SMTP_PORT || 587), // 587
-  secure: process.env.SMTP_SECURE === "true", // false for 587
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-});
-
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ ok: false, error: "Method Not Allowed" });
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-  const { name, email, message, honeypot } = req.body || {};
-  if (honeypot) return res.status(200).json({ ok: true });
-  if (!name || !email || !message) return res.status(400).json({ ok: false, error: "Missing fields" });
+  const { name = "", email = "", message = "" } = req.body || {};
+  if (!name.trim() || !email.trim() || !message.trim()) {
+    return res.status(400).json({ error: "Please provide name, email, and message." });
+  }
+
+  const key = process.env.MAILJET_API_KEY;
+  const secret = process.env.MAILJET_API_SECRET;
+  const fromEmail = process.env.EMAIL_FROM || "support@virtualtrig.com";
+  const toEmail = process.env.EMAIL_TO || "support@virtualtrig.com";
+
+  if (!key || !secret) {
+    return res.status(500).json({ error: "Mailjet keys not configured." });
+  }
+
+  // Mailjet v3.1 send endpoint
+  const auth = Buffer.from(`${key}:${secret}`).toString("base64");
+  const body = {
+    Messages: [
+      {
+        From: { Email: fromEmail, Name: "VIRTUALtrig" },
+        To: [{ Email: toEmail, Name: "Support" }],
+        Subject: "New message from VIRTUALtrig contact form",
+        TextPart: `From: ${name} <${email}>\n\n${message}`,
+        HTMLPart: `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p>${escapeHtml(
+          message
+        )}</p>`,
+        ReplyTo: { Email: email, Name: name },
+      },
+    ],
+  };
 
   try {
-    await transporter.sendMail({
-      from: process.env.SUPPORT_FROM,          // 'VIRTUALtrig <support@virtualtrig.com>'
-      to: process.env.SUPPORT_TO,              // 'support@virtualtrig.com'
-      replyTo: email,
-      subject: `Support: ${name}`,
-      text: `From: ${name} <${email}>\n\n${message}`,
+    const r = await fetch("https://api.mailjet.com/v3.1/send", {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${auth}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
     });
+
+    const json = await r.json().catch(() => ({}));
+    if (!r.ok || json?.Messages?.[0]?.Status !== "success") {
+      return res
+        .status(502)
+        .json({ error: "Mail sending failed.", detail: json || (await r.text()) });
+    }
+
     return res.status(200).json({ ok: true });
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ ok: false, error: "Email send failed" });
+  } catch (err) {
+    return res.status(500).json({ error: "Server error.", detail: String(err) });
   }
+}
+
+// tiny HTML escape for the HTMLPart
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
