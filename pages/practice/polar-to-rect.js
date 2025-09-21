@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 const PracticeFlow = dynamic(() => import("../../components/PracticeFlow"), { ssr: false });
 
+
 export default function PolarToRect() {
   return (
     <main className="min-h-screen p-6 md:p-10">
