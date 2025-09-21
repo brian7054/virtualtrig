@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "icons": "node tools/export-icons.mjs"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.32.0",
     "next": "15.5.2",
     "nodemailer": "^7.0.6",
     "react": "18.3.1",
@@ -20,12 +22,5 @@
     "postcss": "latest",
     "sharp": "^0.34.3",
     "tailwindcss": "latest"
-  },
-"scripts": {
-  "dev": "next dev -p 3000",
-  "build": "next build",
-  "start": "next start",
-  "icons": "node tools/export-icons.mjs"
-}
-
+  }
 }

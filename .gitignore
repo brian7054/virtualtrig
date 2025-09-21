@@ -1,12 +1,16 @@
-﻿node_modules
-.next
-.out
-dist
+﻿# Dependencies / builds
+node_modules/
+.next/
+out/
+dist/
+*.log
+
+# Env & secrets
 .env
 .env.*
 !.env.example
-.vercel
+.env.local
+
+# Misc
 .DS_Store
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+coverage/
