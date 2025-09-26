@@ -1,10 +1,12 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"            // ⬅ change from sqlite → postgresql
   url      = env("DATABASE_URL")
 }
+
 model Message {
   id        String   @id @default(cuid())
   name      String
