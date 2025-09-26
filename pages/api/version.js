@@ -1,5 +1,5 @@
 // pages/api/version.js
-export default function handler(req, res) {
+export default function handler(_req, res) {
   res.status(200).json({
     commit: process.env.VERCEL_GIT_COMMIT_SHA || null,
     repo: process.env.VERCEL_GIT_REPO_SLUG || null,
