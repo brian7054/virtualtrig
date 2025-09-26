@@ -1,8 +1,7 @@
-import { requireAuth } from "../../lib/requireAuth";
-
 import dynamic from "next/dynamic";
-const PracticeFlow = dynamic(() => import("../../components/PracticeFlow"), { ssr: false });
+import { requireAuth } from "../../lib/requireAuth";   // ← exactly once
 
+const PracticeFlow = dynamic(() => import("../../components/PracticeFlow"), { ssr: false });
 
 export default function DegRad() {
   return (
@@ -14,7 +13,4 @@ export default function DegRad() {
   );
 }
 
-export const getServerSideProps = requireAuth();
-
-import { requireAuth } from "../../lib/requireAuth";
-export const getServerSideProps = requireAuth();
+export const getServerSideProps = requireAuth();       // ← one guard
