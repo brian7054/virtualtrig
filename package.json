@@ -1,25 +1,37 @@
 {
+  "name": "virtualtrig",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma migrate deploy && next build"
+  },
   "dependencies": {
-    "next": "15.5.2",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
     "@clerk/nextjs": "^6.0.0",
+    "@prisma/client": "^6.16.2",
     "@tailwindcss/postcss": "^4.0.0",
     "autoprefixer": "^10.4.20",
+    "lightningcss": "^1.27.0",
+    "next": "15.5.2",
     "postcss": "^8.4.47",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "eslint-config-next": "15.5.2"
+    "eslint-config-next": "15.5.2",
+    "prisma": "^6.16.2"
   },
   "overrides": {
     "react": "19.0.0",
     "react-dom": "19.0.0"
-  },
-{
-  "scripts": {
-    "postinstall": "prisma generate",
-    "vercel-build": "prisma migrate deploy && next build"
   }
 }
