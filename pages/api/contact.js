@@ -1,4 +1,6 @@
 // pages/api/contact.js
+import { prisma } from "../../lib/prisma";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -10,59 +12,18 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Please provide name, email, and message." });
   }
 
-  const key = process.env.MAILJET_API_KEY;
-  const secret = process.env.MAILJET_API_SECRET;
-  const fromEmail = process.env.EMAIL_FROM || "support@virtualtrig.com";
-  const toEmail = process.env.EMAIL_TO || "support@virtualtrig.com";
-
-  if (!key || !secret) {
-    return res.status(500).json({ error: "Mailjet keys not configured." });
-  }
-
-  // Mailjet v3.1 send endpoint
-  const auth = Buffer.from(`${key}:${secret}`).toString("base64");
-  const body = {
-    Messages: [
-      {
-        From: { Email: fromEmail, Name: "VIRTUALtrig" },
-        To: [{ Email: toEmail, Name: "Support" }],
-        Subject: "New message from VIRTUALtrig contact form",
-        TextPart: `From: ${name} <${email}>\n\n${message}`,
-        HTMLPart: `<p><strong>From:</strong> ${name} &lt;${email}&gt;</p><p>${escapeHtml(
-          message
-        )}</p>`,
-        ReplyTo: { Email: email, Name: name },
-      },
-    ],
-  };
-
   try {
-    const r = await fetch("https://api.mailjet.com/v3.1/send", {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${auth}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+    // Optional: ensure DB is connected
+    // await prisma.$connect();
+
+    const saved = await prisma.message.create({
+      data: { name: name.trim(), email: email.trim(), body: message.trim() },
     });
-
-    const json = await r.json().catch(() => ({}));
-    if (!r.ok || json?.Messages?.[0]?.Status !== "success") {
-      return res
-        .status(502)
-        .json({ error: "Mail sending failed.", detail: json || (await r.text()) });
-    }
-
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, id: saved.id });
   } catch (err) {
-    return res.status(500).json({ error: "Server error.", detail: String(err) });
+    console.error("CONTACT_SAVE_ERROR", err);
+    const detail =
+      process.env.NODE_ENV === "development" ? String(err?.message || err) : undefined;
+    return res.status(500).json({ error: "Failed to save message.", detail });
   }
-}
-
-// tiny HTML escape for the HTMLPart
-function escapeHtml(s) {
-  return String(s)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
 }

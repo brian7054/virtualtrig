@@ -1,3 +1,5 @@
+import { requireAuth } from "../../lib/requireAuth";
+
 import dynamic from "next/dynamic";
 const PracticeFlow = dynamic(() => import("../../components/PracticeFlow"), { ssr: false });
 
@@ -11,3 +13,5 @@ export default function PolarToRect() {
     </main>
   );
 }
+
+export const getServerSideProps = requireAuth();

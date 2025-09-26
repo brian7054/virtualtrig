@@ -1,3 +1,5 @@
+import { requireAuth } from "../../lib/requireAuth";
+
 import dynamic from "next/dynamic";
 const PracticeFlow = dynamic(() => import("../../components/PracticeFlow"), { ssr: false });
 
@@ -11,3 +13,8 @@ export default function DegRad() {
     </main>
   );
 }
+
+export const getServerSideProps = requireAuth();
+
+import { requireAuth } from "../../lib/requireAuth";
+export const getServerSideProps = requireAuth();
