@@ -13,6 +13,8 @@ export default function Home() {
               <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
                 Trig that finally <span className="underline decoration-sky-300">makes sense</span>
               </h1>
+<p className="mt-2 text-xs text-gray-500">BUILD MARKER: VT-Homepage-777</p>
+
               <p className="mt-4 text-lg text-gray-700">
                 Interactive practice that shows each step. Convert angles, master the unit circle,
                 and solve right triangles—with instant feedback and built-in hints.
@@ -243,6 +245,10 @@ function TopicCard({ title, blurb, href }) {
 }
 
 // Force dynamic HTML for cache-busting during the next deploy
+export async function getServerSideProps() {
+  return { props: { now: Date.now() } };
+}
+
 export async function getServerSideProps() {
   return { props: { now: Date.now() } };
 }
