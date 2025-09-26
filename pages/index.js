@@ -51,9 +51,9 @@ export default function Home() {
                   />
                 </div>
                 <ul className="mt-4 space-y-2 text-sm text-gray-700">
-                  <li>• Bite-size, step-by-step practice</li>
-                  <li>• Pi-friendly input (π, π/6, etc.)</li>
-                  <li>• Guided hints from the AI Tutor</li>
+ <li>• Bite-size, step-by-step practice</li>
+ <li>• Pi-friendly input (π, π/6, etc.)</li>
+ <li>• Guided hints from the AI Tutor</li>
                 </ul>
                 <div className="mt-5">
                   <Link
@@ -240,4 +240,9 @@ function TopicCard({ title, blurb, href }) {
       </div>
     </Link>
   );
+}
+
+// Force dynamic HTML for cache-busting during the next deploy
+export async function getServerSideProps() {
+  return { props: { now: Date.now() } };
 }
